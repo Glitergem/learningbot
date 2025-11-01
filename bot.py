@@ -38,7 +38,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
         "សួស្តី! 👋\n\n"
         "បូតរៀនជីវិត 🌟\n"
-        "ស្វែងយល់ពីគន្លឹះប្រចាំថ្ងៃ ដើម្បីបង្កើនជំនាញ និងទម្លាប់ល្អ។\n\n"
+        "ស្វែងយល់ពីគន្លឹះប្រចាំថ្ងៃ ដើម្បីអភិវឌ្ឍជីវិត និងទម្លាប់ល្អ។\n\n"
         "ជ្រើសរើសជម្រើសខាងក្រោម៖",
         reply_markup=reply_markup,
     )
