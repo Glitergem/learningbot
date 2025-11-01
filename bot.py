@@ -6,16 +6,16 @@ from telegram.ext import ApplicationBuilder, CommandHandler, CallbackQueryHandle
 TOKEN = "8219450701:AAF4CKj5ihdN5kAztEhZQVIFPO04MLII_Hs"  # Your bot token
 MAIN_BOT_LINK = "https://t.me/faxkh888888888bot"
 
-# Tips content (neutral educational / life skills)
+# មាតិកាគន្លឹះជីវិតប្រចាំថ្ងៃ
 LIFE_TIPS = [
-    "💡 Tip 1: Prioritize your daily tasks to be more productive.",
-    "💡 Tip 2: Take short breaks to refresh your mind.",
-    "💡 Tip 3: Set achievable goals every day.",
-    "💡 Tip 4: Stay organized by keeping a to-do list.",
-    "💡 Tip 5: Learn something new every day to grow your skills.",
+    "💡 គន្លឹះទី១៖ រៀបចំភារកិច្ចប្រចាំថ្ងៃរបស់អ្នកតាមអាទិភាព។",
+    "💡 គន្លឹះទី២៖ យកពេលសម្រាកខ្លីៗដើម្បីសម្រាកខួរក្បាល។",
+    "💡 គន្លឹះទី៣៖ កំណត់គោលដៅតូចៗដែលអាចសម្រេចបានរាល់ថ្ងៃ។",
+    "💡 គន្លឹះទី៤៖ តែងតែមានការរៀបចំដោយប្រើបញ្ជីភារកិច្ច (to-do list)។",
+    "💡 គន្លឹះទី៥៖ រៀនអ្វីថ្មីៗរាល់ថ្ងៃ ដើម្បីបង្កើនជំនាញរបស់អ្នក។",
 ]
 
-# Track which tip a user is currently on
+# តាមដានថាបច្ចុប្បន្នអ្នកប្រើកំពុងនៅលើគន្លឹះណា
 user_tip_index = {}
 
 logging.basicConfig(
@@ -26,29 +26,29 @@ logger = logging.getLogger(__name__)
 # --- START COMMAND ---
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = update.message.from_user.id
-    user_tip_index[user_id] = 0  # Reset tip index
+    user_tip_index[user_id] = 0  # កំណត់សារថ្មីចាប់ផ្តើមពីគន្លឹះទី១
 
     keyboard = [
-        [InlineKeyboardButton("💡 Get Life Tips", callback_data="tip")],
-        [InlineKeyboardButton("🔗 Go to Main Bot", url=MAIN_BOT_LINK)],
+        [InlineKeyboardButton("💡 ទទួលបានគន្លឹះជីវិត", callback_data="tip")],
+        [InlineKeyboardButton("🔗 ទៅកាន់បូតចម្បង", url=MAIN_BOT_LINK)],
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
 
     await update.message.reply_text(
-        "Hello! 👋\n\n"
-        "Life Learning Bot 🌟\n"
-        "Discover useful daily tips to improve your skills and habits.\n\n"
-        "Choose an option below:",
+        "សួស្តី! 👋\n\n"
+        "បូតរៀនជីវិត 🌟\n"
+        "ស្វែងយល់ពីគន្លឹះប្រចាំថ្ងៃ ដើម្បីបង្កើនជំនាញ និងទម្លាប់ល្អៗ។\n\n"
+        "សូមជ្រើសរើសជម្រើសខាងក្រោម៖",
         reply_markup=reply_markup,
     )
 
 # --- HELP COMMAND ---
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
-        "🆘 Help\n\n"
-        "💡 Get Life Tips → Receive short daily tips\n"
-        "🔗 Go to Main Bot → Access additional features\n\n"
-        "Press /start to begin again 🌟"
+        "🆘 ជំនួយ\n\n"
+        "💡 ទទួលបានគន្លឹះជីវិត → ទទួលបានគន្លឹះប្រចាំថ្ងៃខ្លីៗ\n"
+        "🔗 ទៅកាន់បូតចម្បង → ចូលទៅកាន់មុខងារបន្ថែម\n\n"
+        "សូមវាយ /start ដើម្បីចាប់ផ្តើមឡើងវិញ 🌟"
     )
 
 # --- BUTTON HANDLER ---
@@ -61,39 +61,39 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = query.from_user.id
 
     if query.data == "tip":
-        # Get current tip index
+        # ទទួលបានគន្លឹះបច្ចុប្បន្ន
         index = user_tip_index.get(user_id, 0)
         tip = LIFE_TIPS[index]
 
         await query.message.reply_text(tip)
 
-        # Prepare next tip or reset
+        # រៀបចំសម្រាប់គន្លឹះបន្ទាប់ ឬកំណត់ឡើងវិញ
         if index + 1 < len(LIFE_TIPS):
             user_tip_index[user_id] = index + 1
             keyboard = [
-                [InlineKeyboardButton("💡 Next Tip", callback_data="tip")],
-                [InlineKeyboardButton("⬅️ Back to Menu", callback_data="back")],
-                [InlineKeyboardButton("🔗 Go to Main Bot", url=MAIN_BOT_LINK)],
+                [InlineKeyboardButton("💡 គន្លឹះបន្ទាប់", callback_data="tip")],
+                [InlineKeyboardButton("⬅️ ត្រឡប់ទៅម៉ឺនុយ", callback_data="back")],
+                [InlineKeyboardButton("🔗 ទៅកាន់បូតចម្បង", url=MAIN_BOT_LINK)],
             ]
         else:
-            user_tip_index[user_id] = 0  # Reset after last tip
+            user_tip_index[user_id] = 0  # កំណត់ឡើងវិញបន្ទាប់ពីគន្លឹះចុងក្រោយ
             keyboard = [
-                [InlineKeyboardButton("⬅️ Back to Menu", callback_data="back")],
-                [InlineKeyboardButton("🔗 Go to Main Bot", url=MAIN_BOT_LINK)],
+                [InlineKeyboardButton("⬅️ ត្រឡប់ទៅម៉ឺនុយ", callback_data="back")],
+                [InlineKeyboardButton("🔗 ទៅកាន់បូតចម្បង", url=MAIN_BOT_LINK)],
             ]
 
         await query.message.reply_text(
-            "Choose your next action:",
+            "សូមជ្រើសរើសសកម្មភាពបន្ទាប់៖",
             reply_markup=InlineKeyboardMarkup(keyboard),
         )
 
     elif query.data == "back":
         keyboard = [
-            [InlineKeyboardButton("💡 Get Life Tips", callback_data="tip")],
-            [InlineKeyboardButton("🔗 Go to Main Bot", url=MAIN_BOT_LINK)],
+            [InlineKeyboardButton("💡 ទទួលបានគន្លឹះជីវិត", callback_data="tip")],
+            [InlineKeyboardButton("🔗 ទៅកាន់បូតចម្បង", url=MAIN_BOT_LINK)],
         ]
         await query.message.reply_text(
-            "Back to main menu 🌟\nChoose an option:",
+            "ត្រឡប់ទៅម៉ឺនុយដើម 🌟\nសូមជ្រើសរើសជម្រើស៖",
             reply_markup=InlineKeyboardMarkup(keyboard),
         )
 
@@ -103,7 +103,7 @@ def main():
     app.add_handler(CommandHandler("start", start))
     app.add_handler(CommandHandler("help", help_command))
     app.add_handler(CallbackQueryHandler(button))
-    logger.info("🤖 Life Learning Bot is running...")
+    logger.info("🤖 បូតរៀនជីវិត កំពុងដំណើរការ...")
     app.run_polling()
 
 if __name__ == "__main__":
